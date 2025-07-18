@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Controle do Melonr Bot</title>
+  <style>
+    body {
+      background-color: #111;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    h1 {
+      color: #1db954;
+    }
+
+    input, select, button {
+      padding: 10px;
+      margin: 10px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    input, select {
+      width: 250px;
+    }
+
+    button {
+      background-color: #5865f2;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #4752c4;
+    }
+
+    .container {
+      margin-top: 2rem;
+    }
+
+    #status {
+      margin-top: 20px;
+      color: #1db954;
+    }
+  </style>
+</head>
+<body>
+  <h1>Painel de Controle - Melonr Bot</h1>
+
+  <div class="container">
+    <select id="comando">
+      <option value="falar">Falar</option>
+      <option value="mutar">Mutar</option>
+      <option value="banir">Banir</option>
+    </select><br>
+
+    <input id="target" placeholder="Texto ou @usuário" /><br>
+
+    <button onclick="enviarComando()">Executar</button>
+
+    <p id="status"></p>
+  </div>
+
+  <script>
+    async function enviarComando() {
+      const comando = document.getElementById("comando").value;
+      const alvo = document.getElementById("target").value;
+
+      const res = await fetch("http://localhost:3000/comando", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ comando, alvo })
+      });
+
+      const resposta = await res.text();
+      document.getElementById("status").innerText = resposta;
+    }
+  </script>
+</body>
+</html>
